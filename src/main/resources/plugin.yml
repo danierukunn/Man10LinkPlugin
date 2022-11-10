@@ -1,0 +1,7 @@
+name: Man10LinkPlugin
+version: '${project.version}'
+main: kbtdx.links.man10linkplugin.Man10LinkPlugin
+api-version: 1.17
+commands:
+  urlop:
+  url:
