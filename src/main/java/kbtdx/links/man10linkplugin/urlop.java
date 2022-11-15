@@ -11,8 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 
-import static kbtdx.links.man10linkplugin.Man10LinkPlugin.Man10link;
-import static kbtdx.links.man10linkplugin.Man10LinkPlugin.prefix;
+import static kbtdx.links.man10linkplugin.Man10LinkPlugin.*;
 
 public class urlop implements CommandExecutor {
     @Override
@@ -23,7 +22,7 @@ public class urlop implements CommandExecutor {
         if (sender.isOp()){
             if (command.getName().equalsIgnoreCase("urlop")){
                 if (args.length == 0){
-                    sender.sendMessage(prefix + ChatColor.YELLOW + "/urlop create/delete/list/send");
+                    sender.sendMessage(prefix + ChatColor.YELLOW + "/urlop create|delete|list|send");
                     return true;
                 }
                 if (args[0].equalsIgnoreCase("create")){
@@ -36,6 +35,7 @@ public class urlop implements CommandExecutor {
                         return true;
                     }
                     if (args.length == 3){
+                        tabcomplist.add(args[1]);
                         File folder = new File(Man10link.getDataFolder().getAbsolutePath() + "/links/" + File.separator + args[1] + ".yml");
                         if (folder.exists()){
                             sender.sendMessage(prefix + ChatColor.RED + "すでにその登録名は存在します。");
