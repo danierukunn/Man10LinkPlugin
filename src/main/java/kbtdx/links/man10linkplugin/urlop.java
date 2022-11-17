@@ -35,7 +35,6 @@ public class urlop implements CommandExecutor {
                         return true;
                     }
                     if (args.length == 3){
-                        tabcomplist.add(args[1]);
                         File folder = new File(Man10link.getDataFolder().getAbsolutePath() + "/links/" + File.separator + args[1] + ".yml");
                         if (folder.exists()){
                             sender.sendMessage(prefix + ChatColor.RED + "すでにその登録名は存在します。");
