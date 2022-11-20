@@ -11,13 +11,13 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import static kbtdx.links.man10linkplugin.Man10LinkPlugin.*;
 
 public class url implements CommandExecutor, TabCompleter {
-
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (command.getName().equalsIgnoreCase("url"))
@@ -45,6 +45,11 @@ public class url implements CommandExecutor, TabCompleter {
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         if (command.getName().equalsIgnoreCase("url")){
             if (args.length == 1){
+                if (args[0].length() >= 0){
+                    for (Data.MLink link : mlinklist){
+
+                    }
+                }
             }
         }
         return null;

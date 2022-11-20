@@ -5,3 +5,8 @@ api-version: 1.17
 commands:
   urlop:
   url:
+permissions:
+  mlink.op:
+    default: op
+  mlink.p:
+    default: true
