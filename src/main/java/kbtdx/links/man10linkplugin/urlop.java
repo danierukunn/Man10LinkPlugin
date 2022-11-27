@@ -65,6 +65,7 @@ public class urlop implements CommandExecutor {
                             sender.sendMessage(prefix + "§eその登録名は存在しません。");
                         }else {
                             folder.delete();
+                            sender.sendMessage(prefix + "§e削除しました。");
                         }
                         return true;
                     }
