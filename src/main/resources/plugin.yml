@@ -8,5 +8,3 @@ commands:
 permissions:
   mlink.op:
     default: op
-  mlink.p:
-    default: true
