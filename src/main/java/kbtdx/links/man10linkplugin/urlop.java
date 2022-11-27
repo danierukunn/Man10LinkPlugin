@@ -91,7 +91,6 @@ public class urlop implements CommandExecutor {
                     if (args.length == 3){
                         try{
                             Player target = Bukkit.getPlayer(args[2]);
-                            sender.sendMessage(prefix + "§e送信しました。");
                             target.sendMessage(prefix + yml.getString("url"));
                         }catch (Exception e){
                             sender.sendMessage(prefix + ChatColor.RED + "そのプレイヤーはオフラインであるか、存在しません。");
