@@ -5,17 +5,23 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import static kbtdx.links.man10linkplugin.Man10LinkPlugin.*;
 
-public class urlop implements CommandExecutor {
+public class urlop implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!sender.hasPermission("mlink.op")) {
@@ -23,7 +29,7 @@ public class urlop implements CommandExecutor {
         }else {
             if (command.getName().equalsIgnoreCase("urlop")){
                 if (args.length == 0){
-                    sender.sendMessage(prefix + ChatColor.YELLOW + "/urlop create|delete|list|send");
+                    sender.sendMessage(prefix + ChatColor.YELLOW + "/urlop create|delete|send");
                     return true;
                 }
                 if (args[0].equalsIgnoreCase("create")){
@@ -90,6 +96,12 @@ public class urlop implements CommandExecutor {
                         return true;
                     }
                     if (args.length == 3){
+                        File folder = new File(Man10link.getDataFolder().getAbsolutePath() + "/links/" + File.separator + args[1] + ".yml");
+                        try {
+                            yml.load(folder);
+                        } catch (IOException | InvalidConfigurationException e) {
+                            throw new RuntimeException(e);
+                        }
                         try{
                             Player target = Bukkit.getPlayer(args[2]);
                             target.sendMessage(prefix + yml.getString("url"));
@@ -103,5 +115,35 @@ public class urlop implements CommandExecutor {
             }
         }
         return true;
+    }
+
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+        if (command.getName().equalsIgnoreCase("urlop")){
+            if (sender.hasPermission("mlink.op")){
+                if (args[0].length() == 0){
+                    return Arrays.asList("create","delete","send");
+                }
+                if (args[0].equalsIgnoreCase("s")){
+                    if (args[0].length() >= 1 && args[0].length() <= 4){
+                        return Collections.singletonList("send");
+                    }
+                    return Collections.singletonList("send");
+                }
+                if (args[0].equalsIgnoreCase("d")){
+                    if (args[0].length() >= 1 && args[0].length() <= 6){
+                        return Collections.singletonList("delete");
+                    }
+                    return Collections.singletonList("delete");
+                }
+                if (args[0].equalsIgnoreCase("c")){
+                    if (args[0].length() >= 1 && args[0].length() <= 6){
+                        return Collections.singletonList("create");
+                    }
+                    return Collections.singletonList("create");
+                }
+            }
+        }
+        return null;
     }
 }

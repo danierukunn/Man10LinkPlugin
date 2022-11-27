@@ -15,6 +15,7 @@ public final class Man10LinkPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         getCommand("urlop").setExecutor(new urlop());
+        getCommand("urlop").setTabCompleter(new urlop());
         getCommand("url").setExecutor(new url());
         Man10link = this;
         saveDefaultConfig();
