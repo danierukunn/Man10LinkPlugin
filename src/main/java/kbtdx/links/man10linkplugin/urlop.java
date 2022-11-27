@@ -18,7 +18,6 @@ import static kbtdx.links.man10linkplugin.Man10LinkPlugin.*;
 public class urlop implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        File folder = new File(Man10link.getDataFolder().getAbsolutePath() + "/links/" + File.separator + args[1] + ".yml");
         if (!sender.hasPermission("mlink.op")) {
             sender.sendMessage(prefix + ChatColor.RED + "権限がありません。");
         }else {
@@ -37,6 +36,7 @@ public class urlop implements CommandExecutor {
                         return true;
                     }
                     if (args.length == 3){
+                        File folder = new File(Man10link.getDataFolder().getAbsolutePath() + "/links/" + File.separator + args[1] + ".yml");
                         if (folder.exists()){
                             sender.sendMessage(prefix + ChatColor.RED + "すでにその登録名は存在します。");
                         }else {
@@ -60,6 +60,7 @@ public class urlop implements CommandExecutor {
                         return true;
                     }
                     if (args.length == 2){
+                        File folder = new File(Man10link.getDataFolder().getAbsolutePath() + "/links/" + File.separator + args[1] + ".yml");
                         if (!folder.exists()){
                             sender.sendMessage(prefix + "§eその登録名は存在しません。");
                         }else {
@@ -74,6 +75,7 @@ public class urlop implements CommandExecutor {
                         sender.sendMessage(prefix + "§e登録名・プレイヤーが必要です。");
                     }
                     if (args.length == 2){
+                        File folder = new File(Man10link.getDataFolder().getAbsolutePath() + "/links/" + File.separator + args[1] + ".yml");
                         try {
                             yml.load(folder);
                         } catch (IOException | InvalidConfigurationException e) {
