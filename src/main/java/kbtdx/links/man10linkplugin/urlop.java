@@ -115,6 +115,17 @@ public class urlop implements CommandExecutor, TabCompleter {
                 if (args[0].equalsIgnoreCase("help")){
                     sendhelp(sender);
                 }
+                if (args[0].equalsIgnoreCase("reload")){
+                    File file = new File(Man10link.getDataFolder().getAbsolutePath() + File.separator + "links");
+                    File[] list = file.listFiles();
+                    if (list != null){
+                        for (File folder : list){
+                            YamlConfiguration yml = YamlConfiguration.loadConfiguration(folder);
+                            List<String> values = Collections.singletonList(yml.getString("key"));
+                            commands.addAll(values);
+                        }
+                    }
+                }
             }
         }
         return true;
