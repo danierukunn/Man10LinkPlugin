@@ -125,16 +125,7 @@ public class urlop implements CommandExecutor, TabCompleter {
                             commands.addAll(values);
                         }
                     }
-                    File config = new File(Man10link.getDataFolder().getAbsolutePath() + File.separator + "config.yml");
-                    YamlConfiguration yml = new YamlConfiguration();
-                    try {
-                        yml.load(config);
-                        sender.sendMessage(prefix + "§aリロードしました。");
-                    } catch (IOException | InvalidConfigurationException e) {
-                        sender.sendMessage(prefix + ChatColor.RED + "エラーが発生しました。リロードできません");
-                        throw new RuntimeException(e);
-                    }
-
+                    sender.sendMessage(prefix + "§aリロードしました。");
                 }
             }
         }
