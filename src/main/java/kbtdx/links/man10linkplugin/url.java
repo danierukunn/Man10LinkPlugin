@@ -33,12 +33,15 @@ public class url implements CommandExecutor, TabCompleter {
                     YamlConfiguration yml = new YamlConfiguration();
                     if (!folder.exists()){
                         sender.sendMessage(prefix + ChatColor.RED + "その登録名は存在しません。");
-                    }
-                    try {
-                        yml.load(folder);
-                        sender.sendMessage(prefix + yml.getString("url"));
-                    } catch (IOException | InvalidConfigurationException e) {
-                        throw new RuntimeException(e);
+                    }else {
+                        try {
+                            yml.load(folder);
+                            sender.sendMessage(prefix + yml.getString("url"));
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        } catch (InvalidConfigurationException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                     return true;
                 }
