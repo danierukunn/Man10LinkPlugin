@@ -71,6 +71,7 @@ public class urlop implements CommandExecutor, TabCompleter {
                             sender.sendMessage(prefix + "§eその登録名は存在しません。");
                         }else {
                             folder.delete();
+                            commands.remove(args[1]);
                             sender.sendMessage(prefix + "§e削除しました。");
                         }
                         return true;
