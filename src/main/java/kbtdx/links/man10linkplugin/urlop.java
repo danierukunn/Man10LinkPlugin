@@ -125,6 +125,16 @@ public class urlop implements CommandExecutor, TabCompleter {
                             commands.addAll(values);
                         }
                     }
+                    File config = new File(Man10link.getDataFolder().getAbsolutePath() + File.separator + "config.yml");
+                    YamlConfiguration yml = new YamlConfiguration();
+                    try {
+                        yml.load(config);
+                        sender.sendMessage(prefix + "§aリロードしました。");
+                    } catch (IOException | InvalidConfigurationException e) {
+                        sender.sendMessage(prefix + ChatColor.RED + "エラーが発生しました。リロードできません");
+                        throw new RuntimeException(e);
+                    }
+
                 }
             }
         }
@@ -136,7 +146,7 @@ public class urlop implements CommandExecutor, TabCompleter {
         if (command.getName().equalsIgnoreCase("urlop")){
             if (sender.hasPermission("mlink.op")){
                 if (args.length == 1){
-                    return Arrays.asList("create","delete","send","help");
+                    return Arrays.asList("create","delete","send","help","reload");
                 }
                 if (args.length == 2){
                     return commands;
@@ -147,7 +157,7 @@ public class urlop implements CommandExecutor, TabCompleter {
     }
 
     public void sendhelp(CommandSender sender){
-        sender.sendMessage("§e=======§dMa§fn§a10§eLink§f=======");
+        sender.sendMessage("=======§dMa§fn§a10§eLink§f=======");
         sender.sendMessage("§e/urlop create 登録名 URL");
         sender.sendMessage("§e表示するURLを作成します。");
         sender.sendMessage("§e/urlop delete 登録名");
@@ -156,5 +166,6 @@ public class urlop implements CommandExecutor, TabCompleter {
         sender.sendMessage("§e引数で指定したプレイヤーにURLを送信します。");
         sender.sendMessage("§e/urlop reload");
         sender.sendMessage("§econfig/linkファイルをリロードします。");
+        sender.sendMessage("=======================");
     }
 }
