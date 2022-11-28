@@ -112,6 +112,9 @@ public class urlop implements CommandExecutor, TabCompleter {
                     }
                     return true;
                 }
+                if (args[0].equalsIgnoreCase("help")){
+                    sendhelp(sender);
+                }
             }
         }
         return true;
@@ -121,29 +124,26 @@ public class urlop implements CommandExecutor, TabCompleter {
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         if (command.getName().equalsIgnoreCase("urlop")){
             if (sender.hasPermission("mlink.op")){
-                if (args[0].length() == 0){
-                    return Arrays.asList("create","delete","send");
+                if (args.length == 1){
+                    return Arrays.asList("create","delete","send","help");
                 }
-                if (args[0].equalsIgnoreCase("s")){
-                    if (args[0].length() >= 1 && args[0].length() <= 4){
-                        return Collections.singletonList("send");
-                    }
-                    return Collections.singletonList("send");
-                }
-                if (args[0].equalsIgnoreCase("d")){
-                    if (args[0].length() >= 1 && args[0].length() <= 6){
-                        return Collections.singletonList("delete");
-                    }
-                    return Collections.singletonList("delete");
-                }
-                if (args[0].equalsIgnoreCase("c")){
-                    if (args[0].length() >= 1 && args[0].length() <= 6){
-                        return Collections.singletonList("create");
-                    }
-                    return Collections.singletonList("create");
+                if (args.length == 2){
+                    return commands;
                 }
             }
         }
         return null;
+    }
+
+    public void sendhelp(CommandSender sender){
+        sender.sendMessage("§e=======§dMa§fn§a10§eLink§f=======");
+        sender.sendMessage("§e/urlop create 登録名 URL");
+        sender.sendMessage("§e表示するURLを作成します。");
+        sender.sendMessage("§e/urlop delete 登録名");
+        sender.sendMessage("§e表示するURLを削除します。");
+        sender.sendMessage("§e/urlop send 登録名 プレイヤー");
+        sender.sendMessage("§e引数で指定したプレイヤーにURLを送信します。");
+        sender.sendMessage("§e/urlop reload");
+        sender.sendMessage("§econfig/linkファイルをリロードします。");
     }
 }

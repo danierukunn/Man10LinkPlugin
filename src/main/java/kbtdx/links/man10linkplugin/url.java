@@ -19,7 +19,7 @@ import java.util.List;
 
 import static kbtdx.links.man10linkplugin.Man10LinkPlugin.*;
 
-public class url implements CommandExecutor {
+public class url implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (command.getName().equalsIgnoreCase("url"))
@@ -33,9 +33,7 @@ public class url implements CommandExecutor {
                     YamlConfiguration yml = new YamlConfiguration();
                     try {
                         yml.load(folder);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    } catch (InvalidConfigurationException e) {
+                    } catch (IOException | InvalidConfigurationException e) {
                         throw new RuntimeException(e);
                     }
                     if (!folder.exists()){
@@ -49,5 +47,15 @@ public class url implements CommandExecutor {
             return true;
         }
         return true;
+    }
+
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+        if (command.getName().equalsIgnoreCase("url")){
+            if (args.length == 1){
+                return commands;
+            }
+        }
+        return null;
     }
 }
