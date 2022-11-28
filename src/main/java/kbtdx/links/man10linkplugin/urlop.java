@@ -29,7 +29,7 @@ public class urlop implements CommandExecutor, TabCompleter {
         }else {
             if (command.getName().equalsIgnoreCase("urlop")){
                 if (args.length == 0){
-                    sender.sendMessage(prefix + ChatColor.YELLOW + "/urlop create|delete|send");
+                    sendhelp(sender);
                     return true;
                 }
                 if (args[0].equalsIgnoreCase("create")){
