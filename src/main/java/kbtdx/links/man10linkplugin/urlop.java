@@ -97,17 +97,21 @@ public class urlop implements CommandExecutor, TabCompleter {
                     }
                     if (args.length == 3){
                         File folder = new File(Man10link.getDataFolder().getAbsolutePath() + "/links/" + File.separator + args[1] + ".yml");
-                        try {
-                            yml.load(folder);
-                        } catch (IOException | InvalidConfigurationException e) {
-                            throw new RuntimeException(e);
-                        }
-                        try{
-                            Player target = Bukkit.getPlayer(args[2]);
-                            target.sendMessage(prefix + yml.getString("url"));
-                        }catch (Exception e){
-                            sender.sendMessage(prefix + ChatColor.RED + "そのプレイヤーはオフラインであるか、存在しません。");
-                            return false;
+                        if (!folder.exists()){
+                            sender.sendMessage(prefix + ChatColor.RED + "その登録名は存在しません。");
+                        }else {
+                            try {
+                                yml.load(folder);
+                            } catch (IOException | InvalidConfigurationException e) {
+                                throw new RuntimeException(e);
+                            }
+                            try{
+                                Player target = Bukkit.getPlayer(args[2]);
+                                target.sendMessage(prefix + yml.getString("url"));
+                            }catch (Exception e){
+                                sender.sendMessage(prefix + ChatColor.RED + "そのプレイヤーはオフラインであるか、存在しません。");
+                                return false;
+                            }
                         }
                     }
                     return true;

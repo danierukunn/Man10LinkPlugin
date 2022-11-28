@@ -37,9 +37,7 @@ public class url implements CommandExecutor, TabCompleter {
                         try {
                             yml.load(folder);
                             sender.sendMessage(prefix + yml.getString("url"));
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        } catch (InvalidConfigurationException e) {
+                        } catch (IOException | InvalidConfigurationException e) {
                             throw new RuntimeException(e);
                         }
                     }
