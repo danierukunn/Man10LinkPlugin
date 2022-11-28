@@ -154,14 +154,14 @@ public class urlop implements CommandExecutor, TabCompleter {
 
     public void sendhelp(CommandSender sender){
         sender.sendMessage("=======§dMa§fn§a10§eLink§f=======");
-        sender.sendMessage("§e/urlop create 登録名 URL");
-        sender.sendMessage("§e表示するURLを作成します。");
-        sender.sendMessage("§e/urlop delete 登録名");
-        sender.sendMessage("§e表示するURLを削除します。");
-        sender.sendMessage("§e/urlop send 登録名 プレイヤー");
-        sender.sendMessage("§e引数で指定したプレイヤーにURLを送信します。");
-        sender.sendMessage("§e/urlop reload");
-        sender.sendMessage("§econfig/linkファイルをリロードします。");
+        sender.sendMessage("§a/urlop create 登録名 URL");
+        sender.sendMessage("-> §e表示するURLを作成します。");
+        sender.sendMessage("§a/urlop delete 登録名");
+        sender.sendMessage("-> §e表示するURLを削除します。");
+        sender.sendMessage("§a/urlop send 登録名 プレイヤー");
+        sender.sendMessage("-> §e引数で指定したプレイヤーにURLを送信します。");
+        sender.sendMessage("§a/urlop reload");
+        sender.sendMessage("-> §elinkファイルをリロードします。");
         sender.sendMessage("=======================");
     }
 }
