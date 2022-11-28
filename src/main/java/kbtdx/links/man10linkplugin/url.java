@@ -31,15 +31,14 @@ public class url implements CommandExecutor, TabCompleter {
                 if (args.length == 1){
                     File folder = new File(Man10link.getDataFolder().getAbsolutePath() + "/links/" + File.separator + args[0] + ".yml");
                     YamlConfiguration yml = new YamlConfiguration();
-                    try {
-                        yml.load(folder);
-                    } catch (IOException | InvalidConfigurationException e) {
-                        throw new RuntimeException(e);
-                    }
                     if (!folder.exists()){
                         sender.sendMessage(prefix + ChatColor.RED + "その登録名は存在しません。");
-                    }else {
+                    }
+                    try {
+                        yml.load(folder);
                         sender.sendMessage(prefix + yml.getString("url"));
+                    } catch (IOException | InvalidConfigurationException e) {
+                        throw new RuntimeException(e);
                     }
                     return true;
                 }
