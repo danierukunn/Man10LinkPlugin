@@ -1,5 +1,7 @@
 package kbtdx.links.man10linkplugin;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -13,13 +15,19 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.yaml.snakeyaml.Yaml;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import static kbtdx.links.man10linkplugin.Man10LinkPlugin.*;
+import static net.kyori.adventure.text.Component.text;
 
 public class urlop implements CommandExecutor, TabCompleter {
     @Override
@@ -92,7 +100,7 @@ public class urlop implements CommandExecutor, TabCompleter {
                         if (!folder.exists()){
                             sender.sendMessage(prefix + ChatColor.RED + "その登録名は存在しません。");
                         }else {
-                            sender.sendMessage(prefix + yml.getString("url"));
+                            sender.sendMessage(Component.text(prefix + "§n§eここをクリック§r§fでMan10Wikiを開きます").clickEvent(ClickEvent.openUrl(Objects.requireNonNull(yml.getString("url")))));
                         }
                         return true;
                     }
@@ -108,7 +116,7 @@ public class urlop implements CommandExecutor, TabCompleter {
                             }
                             try{
                                 Player target = Bukkit.getPlayer(args[2]);
-                                target.sendMessage(prefix + yml.getString("url"));
+                                target.sendMessage(Component.text(prefix + "§n§eここをクリック§r§fでMan10Wikiを開きます").clickEvent(ClickEvent.openUrl(Objects.requireNonNull(yml.getString("url")))));
                             }catch (Exception e){
                                 sender.sendMessage(prefix + ChatColor.RED + "そのプレイヤーはオフラインであるか、存在しません。");
                                 return false;
@@ -130,6 +138,7 @@ public class urlop implements CommandExecutor, TabCompleter {
                             commands.addAll(values);
                         }
                     }
+                    Man10link.reloadConfig();
                     sender.sendMessage(prefix + "§aリロードしました。");
                 }
             }
@@ -161,7 +170,7 @@ public class urlop implements CommandExecutor, TabCompleter {
         sender.sendMessage("§a/urlop send 登録名 プレイヤー");
         sender.sendMessage("-> §e引数で指定したプレイヤーにURLを送信します。");
         sender.sendMessage("§a/urlop reload");
-        sender.sendMessage("-> §elinkファイルをリロードします。");
+        sender.sendMessage("-> §elinkファイル・コンフィグをリロードします。");
         sender.sendMessage("=======================");
     }
 }
