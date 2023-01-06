@@ -14,21 +14,17 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
 import static kbtdx.links.man10linkplugin.Man10LinkPlugin.*;
-import static net.kyori.adventure.text.Component.text;
+import static kbtdx.links.man10linkplugin.Man10LinkPlugin.prefix;
 
-public class urlop implements CommandExecutor, TabCompleter {
+public class Urlop implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!sender.hasPermission("mlink.op")) {
@@ -48,7 +44,7 @@ public class urlop implements CommandExecutor, TabCompleter {
                         sender.sendMessage(prefix + "§eURLが必要です。");
                         return true;
                     }
-                    if (args.length == 3){
+                    if (args.length == 4){
                         File folder = new File(Man10link.getDataFolder().getAbsolutePath() + "/links/" + File.separator + args[1] + ".yml");
                         if (folder.exists()){
                             sender.sendMessage(prefix + ChatColor.RED + "すでにその登録名は存在します。");
@@ -56,6 +52,7 @@ public class urlop implements CommandExecutor, TabCompleter {
                             YamlConfiguration yml = new YamlConfiguration();
                             yml.set("key", args[1]);
                             yml.set("url", args[2]);
+                            yml.set("message", args[3]);
                             try {
                                 yml.save(folder);
                                 sender.sendMessage(prefix + "§a作成に成功しました。");
@@ -65,6 +62,25 @@ public class urlop implements CommandExecutor, TabCompleter {
                             }
                         }
                         return true;
+                    }else {
+                        if (args.length == 3){
+                            File folder = new File(Man10link.getDataFolder().getAbsolutePath() + "/links/" + File.separator + args[1] + ".yml");
+                            if (folder.exists()){
+                                sender.sendMessage(prefix + ChatColor.RED + "すでにその登録名は存在します。");
+                            }else {
+                                YamlConfiguration yml = new YamlConfiguration();
+                                yml.set("key", args[1]);
+                                yml.set("url", args[2]);
+                                try {
+                                    yml.save(folder);
+                                    sender.sendMessage(prefix + "§a作成に成功しました。");
+                                } catch (IOException e){
+                                    e.printStackTrace();
+                                    sender.sendMessage(prefix + ChatColor.RED + args[1] + ".ymlの作成に失敗しました。");
+                                }
+                            }
+                            return true;
+                        }
                     }
                 }
                 if (args[0].equalsIgnoreCase("delete")){
@@ -90,7 +106,7 @@ public class urlop implements CommandExecutor, TabCompleter {
                         sender.sendMessage(prefix + "§e登録名・プレイヤーが必要です。");
                     }
                     if (args.length == 2){
-                        File folder = new File(Man10link.getDataFolder().getAbsolutePath() + "/links/" + File.separator + args[1] + ".yml");
+                        File folder = new File(Man10link.getDataFolder().getAbsolutePath() + "/links/" + args[1] + ".yml");
                         try {
                             yml.load(folder);
                         } catch (IOException | InvalidConfigurationException e) {
@@ -104,7 +120,7 @@ public class urlop implements CommandExecutor, TabCompleter {
                         return true;
                     }
                     if (args.length == 3){
-                        File folder = new File(Man10link.getDataFolder().getAbsolutePath() + "/links/" + File.separator + args[1] + ".yml");
+                        File folder = new File(Man10link.getDataFolder().getAbsolutePath() + "/links/" + args[1] + ".yml");
                         if (!folder.exists()){
                             sender.sendMessage(prefix + ChatColor.RED + "その登録名は存在しません。");
                         }else {
@@ -113,12 +129,22 @@ public class urlop implements CommandExecutor, TabCompleter {
                             } catch (IOException | InvalidConfigurationException e) {
                                 throw new RuntimeException(e);
                             }
-                            try{
-                                Player target = Bukkit.getPlayer(args[2]);
-                                target.sendMessage(Component.text(prefix + "§n§eここをクリック§r§fでMan10Wikiを開きます").clickEvent(ClickEvent.openUrl(Objects.requireNonNull(yml.getString("url")))));
-                            }catch (Exception e){
-                                sender.sendMessage(prefix + ChatColor.RED + "そのプレイヤーはオフラインであるか、存在しません。");
-                                return false;
+                            if (yml.getString("message") != null){
+                                try{
+                                    Player target = Bukkit.getPlayer(args[2]);
+                                    target.sendMessage(Component.text(prefix + yml.getString("message")).clickEvent(ClickEvent.openUrl(Objects.requireNonNull(yml.getString("url")))));
+                                }catch (Exception e){
+                                    sender.sendMessage(prefix + ChatColor.RED + "そのプレイヤーはオフラインであるか、存在しません。");
+                                    return false;
+                                }
+                            }else {
+                                try{
+                                    Player target = Bukkit.getPlayer(args[2]);
+                                    target.sendMessage(Component.text(prefix + defmsg).clickEvent(ClickEvent.openUrl(Objects.requireNonNull(yml.getString("url")))));
+                                }catch (Exception e){
+                                    sender.sendMessage(prefix + ChatColor.RED + "そのプレイヤーはオフラインであるか、存在しません。");
+                                    return false;
+                                }
                             }
                         }
                     }
@@ -152,8 +178,20 @@ public class urlop implements CommandExecutor, TabCompleter {
                 if (args.length == 1){
                     return Arrays.asList("create","delete","send","help","reload");
                 }
-                if (args.length == 2){
+                if (args.length == 2 && args[1].equalsIgnoreCase("delete") || args[1].equalsIgnoreCase("send")){
                     return commands;
+                }else {
+                    if (args[0].equalsIgnoreCase("create")){
+                        if (args.length == 2){
+                            return Collections.singletonList("登録名");
+                        }
+                        if (args.length == 3){
+                            return Collections.singletonList("URL");
+                        }
+                        if (args.length == 4){
+                            return Collections.singletonList("メッセージ");
+                        }
+                    }
                 }
             }
         }

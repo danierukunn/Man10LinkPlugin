@@ -11,16 +11,18 @@ import java.util.List;
 public final class Man10LinkPlugin extends JavaPlugin {
     public static JavaPlugin Man10link;
     public static String prefix;
+    public static String defmsg;
     public static List<String> commands = new ArrayList();
     @Override
     public void onEnable() {
-        getCommand("urlop").setExecutor(new urlop());
-        getCommand("urlop").setTabCompleter(new urlop());
-        getCommand("url").setExecutor(new url());
-        getCommand("url").setTabCompleter(new url());
+        getCommand("urlop").setExecutor(new Urlop());
+        getCommand("urlop").setTabCompleter(new Urlop());
+        getCommand("url").setExecutor(new Url());
+        getCommand("url").setTabCompleter(new Url());
         Man10link = this;
         saveDefaultConfig();
         prefix = Man10link.getConfig().getString("prefix");
+        defmsg = Man10link.getConfig().getString("default-message");
         File file = new File(Man10link.getDataFolder().getAbsolutePath() + File.separator + "links");
         file.mkdir();
         File[] list = file.listFiles();
