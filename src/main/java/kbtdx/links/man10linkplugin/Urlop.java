@@ -52,7 +52,7 @@ public class Urlop implements CommandExecutor, TabCompleter {
                             YamlConfiguration yml = new YamlConfiguration();
                             yml.set("key", args[1]);
                             yml.set("url", args[2]);
-                            yml.set("message", args[3]);
+                            yml.set("message", args[3].replace('&','§'));
                             try {
                                 yml.save(folder);
                                 sender.sendMessage(prefix + "§a作成に成功しました。");
@@ -115,7 +115,7 @@ public class Urlop implements CommandExecutor, TabCompleter {
                         if (!folder.exists()){
                             sender.sendMessage(prefix + ChatColor.RED + "その登録名は存在しません。");
                         }else {
-                            sender.sendMessage(Component.text(prefix + "§n§eここをクリック§r§fでMan10Wikiを開きます").clickEvent(ClickEvent.openUrl(Objects.requireNonNull(yml.getString("url")))));
+                            sender.sendMessage(Component.text(prefix + defmsg).clickEvent(ClickEvent.openUrl(Objects.requireNonNull(yml.getString("url")))));
                         }
                         return true;
                     }
